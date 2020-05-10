@@ -7,6 +7,8 @@ namespace TotoStatistics.Models
         [Key]
         public int Id { get; set; }
 
+        public DrawType Draw { get; set; }
+
         public int One { get; set; } = 0;
 
         public int Two { get; set; } = 0;

@@ -1,20 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.EntityFrameworkCore;
-using TotoStatistics.Data;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace TotoStatistics
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.HttpsPolicy;
+    using Microsoft.EntityFrameworkCore;
+    using TotoStatistics.Data;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using TotoStatistics.Services.Toto;
+    using Microsoft.AspNetCore.Mvc;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -27,6 +29,11 @@ namespace TotoStatistics
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); // CSRF
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -34,6 +41,9 @@ namespace TotoStatistics
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddResponseCaching();
+            services.AddMemoryCache();
+            services.AddTransient<ISixOutOfForty_nineServices, SixOutOfForty_nineServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

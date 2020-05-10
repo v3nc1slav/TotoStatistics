@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using TotoStatistics.Models;
-
-namespace TotoStatistics.Controllers
+﻿namespace TotoStatistics.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using TotoStatistics.Models;
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,13 +19,15 @@ namespace TotoStatistics.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("Home Page");
             return View();
         }
 
         [Authorize]
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }

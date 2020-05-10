@@ -12,6 +12,11 @@
         {
 
         }
+
+        public ApplicationDbContext()
+        {
+        }
+
         public DbSet<Toto> Toto { get; set; }
 
         public DbSet<SixOutOfForty_nine> SixOutOfFortyNine { get; set; }
